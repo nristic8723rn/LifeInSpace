@@ -10,12 +10,43 @@ public class Voyage {
     private LocalDate dateOfDeparture;
     private LocalTime timeOfDeparture;
     private String name;
-
     public Voyage(int voyageId, int orbId, LocalDate dateOfDeparture, LocalTime timeOfDeparture, String name) {
         this.voyageId = voyageId;
         this.orbId = orbId;
         this.dateOfDeparture = dateOfDeparture;
         this.timeOfDeparture = timeOfDeparture;
+        this.name = name;
+    }
+
+    public int getVoyageId() {
+        return voyageId;
+    }
+
+    public int getOrbId() {
+        return orbId;
+    }
+
+    public LocalDate getDateOfDeparture() {
+        return dateOfDeparture;
+    }
+
+    public void setDateOfDeparture(LocalDate dateOfDeparture) {
+        this.dateOfDeparture = dateOfDeparture;
+    }
+
+    public LocalTime getTimeOfDeparture() {
+        return timeOfDeparture;
+    }
+
+    public void setTimeOfDeparture(LocalTime timeOfDeparture) {
+        this.timeOfDeparture = timeOfDeparture;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 }

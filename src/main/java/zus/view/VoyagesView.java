@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import zus.controller.BuyControl;
 import zus.controller.PurchaseBackControl;
 import zus.model.Voyage;
 import zus.model.utility.JDBCUtils;
@@ -46,6 +47,11 @@ public class VoyagesView extends BorderPane {
     }
 
     private void addActions() {
+        btnBuy.setOnAction(new BuyControl(this));
         btnBack.setOnAction(new PurchaseBackControl());
+    }
+
+    public TableView<Voyage> getTvVoyages() {
+        return tvVoyages;
     }
 }

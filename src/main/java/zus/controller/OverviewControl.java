@@ -12,7 +12,7 @@ public class OverviewControl implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            App.window.setScene(new Scene(new PurchasesView(), 600, 500));
+            App.window.setScene(new Scene(new PurchasesView(), 400, 400));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -1,9 +1,6 @@
 package zus.model.utility;
 
-import zus.model.HousingUnit;
-import zus.model.Person;
-import zus.model.User;
-import zus.model.Voyage;
+import zus.model.*;
 import zus.model.base.Server;
 
 import java.sql.*;
@@ -22,7 +19,7 @@ public class JDBCUtils {
         properties.put("user", "root");
         properties.put("password", "");
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/zus1", properties);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/zus3", properties);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -163,6 +160,33 @@ public class JDBCUtils {
 
             Voyage voyage = new Voyage(voyageId, orbId, dod, tod, name);
             list.add(voyage);
+        }
+        return list;
+    }
+
+    public static void insertIntoTicket(String kIme, int idVoyage, int noOfPassengers) throws SQLException {
+        String query = "insert into ticket (username, voyage_id, number_of_passangers)" + "values(?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        connection.setAutoCommit(false);
+        statement.setString(1, kIme);
+        statement.setInt(2,idVoyage);
+        statement.setInt(3,noOfPassengers);
+        statement.executeUpdate();
+        connection.commit();
+    }
+    public static List<Ticket> selectFromTickets(String kIme) throws SQLException {
+        List<Ticket> list = new ArrayList<>();
+        String query = "select * from ticket where username like '" + kIme + "'";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        while(resultSet.next())
+        {
+            String username = resultSet.getString(1);
+            int voyageId = resultSet.getInt(2);
+            int numberOfPassengers = resultSet.getInt(3);
+
+            Ticket ticket = new Ticket(username, voyageId, numberOfPassengers);
+            list.add(ticket);
         }
         return list;
     }
