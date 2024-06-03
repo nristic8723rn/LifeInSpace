@@ -44,6 +44,7 @@ public class LoginControl implements EventHandler<ActionEvent> {
                 else
                 {
                     App.window.setScene(new Scene(new MainView(), 500, 500));
+                    App.window.setTitle(user.getName() + " " + user.getFamilyName());
                 }
             }
         } catch (SQLException e) {

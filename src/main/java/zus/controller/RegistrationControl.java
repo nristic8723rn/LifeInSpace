@@ -30,6 +30,7 @@ public class RegistrationControl implements EventHandler<ActionEvent> {
                             , registrationView.getTfIme().getText(), registrationView.getTfPrezime().getText());
 
                     App.window.setScene(new Scene(new MainView(), 500, 500));
+                    App.window.setTitle(user.getName() + " " + user.getFamilyName());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
