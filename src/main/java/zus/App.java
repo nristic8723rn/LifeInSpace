@@ -1,15 +1,20 @@
 package zus;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import zus.model.utility.JDBCUtils;
+import zus.view.FirstView;
 import zus.view.MainView;
 
 public class App extends Application {
+    public static Stage window;
     @Override
     public void start(Stage stage) throws Exception {
         JDBCUtils.connect();
-        stage = new MainView();
-        stage.show();
+        window = stage;
+        window.setScene(new Scene(new FirstView(), 150, 150));
+        window.setTitle("Dobrodosli");
+        window.show();
     }
 }
