@@ -148,6 +148,24 @@ public class JDBCUtils {
         }
         return list;
     }
+    public static List<Voyage> selectAllFromVoyages() throws SQLException {
+        List<Voyage> list = new ArrayList<>();
+        String query = "select * from voyages";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        while(resultSet.next())
+        {
+            int voyageId = resultSet.getInt(1);
+            int orbId = resultSet.getInt(2);
+            LocalDate dod = resultSet.getDate(3).toLocalDate();
+            LocalTime tod = resultSet.getTime(4).toLocalTime();
+            String name = resultSet.getString(5);
+
+            Voyage voyage = new Voyage(voyageId, orbId, dod, tod, name);
+            list.add(voyage);
+        }
+        return list;
+    }
 
     private JDBCUtils() {
 

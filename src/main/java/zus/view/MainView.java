@@ -9,10 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import zus.controller.AddControl;
-import zus.controller.BackControl;
-import zus.controller.FilterControl;
-import zus.controller.OverviewControl;
+import zus.controller.*;
 import zus.model.Person;
 import zus.model.base.Server;
 
@@ -50,6 +47,7 @@ public class MainView extends BorderPane {
     }
 
     private void addAction() {
+        btnTickets.setOnAction(new TicketsControl());
         btnOverview.setOnAction(new OverviewControl());
         btnLogout.setOnAction(new BackControl());
     }
