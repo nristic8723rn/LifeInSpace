@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import zus.controller.AddControl;
 import zus.controller.BackControl;
 import zus.controller.FilterControl;
+import zus.controller.OverviewControl;
 import zus.model.Person;
 import zus.model.base.Server;
 
@@ -49,6 +50,7 @@ public class MainView extends BorderPane {
     }
 
     private void addAction() {
+        btnOverview.setOnAction(new OverviewControl());
         btnLogout.setOnAction(new BackControl());
     }
 }

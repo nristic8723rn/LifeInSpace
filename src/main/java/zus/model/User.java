@@ -1,7 +1,7 @@
 package zus.model;
 
 public class User {
-    private String username;
+    private final String username;
     private String password;
     private String name;
     private String familyName;
