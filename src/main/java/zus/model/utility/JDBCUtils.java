@@ -22,7 +22,7 @@ public class JDBCUtils {
         properties.put("user", "root");
         properties.put("password", "");
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/zhus", properties);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/zus1", properties);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
