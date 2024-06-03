@@ -29,8 +29,10 @@ public class RegistrationControl implements EventHandler<ActionEvent> {
                     JDBCUtils.insertIntoUsers(registrationView.getTfUserName().getText(), registrationView.getTfPassword().getText()
                             , registrationView.getTfIme().getText(), registrationView.getTfPrezime().getText());
 
-                    App.window.setScene(new Scene(new MainView(), 500, 500));
+                    App.window.setScene(new Scene(new MainView(), 200, 250));
                     App.window.setTitle(user.getName() + " " + user.getFamilyName());
+                    App.current = new User(registrationView.getTfUserName().getText(), registrationView.getTfPassword().getText()
+                            , registrationView.getTfIme().getText(), registrationView.getTfPrezime().getText());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

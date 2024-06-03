@@ -7,8 +7,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import zus.controller.AddControl;
+import zus.controller.BackControl;
 import zus.controller.FilterControl;
 import zus.model.Person;
 import zus.model.base.Server;
@@ -16,24 +18,37 @@ import zus.model.base.Server;
 import java.time.LocalDate;
 
 public class MainView extends BorderPane {
+    private Button btnObjects;
+    private Button btnTickets;
+    private Button btnOverview;
+    private Button btnLogout;
 
     public MainView()
     {
         initElements();
-        createTable();
         addElements();
         addAction();
     }
 
     private void initElements() {
-    }
-
-    private void createTable() {
+        btnObjects = new Button("Kupovina objekata");
+        btnTickets = new Button("Kupovina karata");
+        btnOverview = new Button("Pregled kupljenih stvari");
+        btnLogout = new Button("Izlogujte se");
     }
 
     private void addElements() {
+        setPadding(new Insets(20));
+
+        VBox vb = new VBox();
+        vb.getChildren().addAll(btnObjects, btnTickets, btnOverview, btnLogout);
+        vb.setAlignment(Pos.CENTER);
+        vb.setSpacing(10);
+
+        setCenter(vb);
     }
 
     private void addAction() {
+        btnLogout.setOnAction(new BackControl());
     }
 }

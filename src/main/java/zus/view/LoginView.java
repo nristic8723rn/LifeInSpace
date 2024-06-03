@@ -7,13 +7,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import zus.controller.BackControl;
 import zus.controller.LoginControl;
 
 public class LoginView extends BorderPane {
     private TextField tfUsername;
     private TextField tfPassword;
     private Button btnLogin;
+    private Button btnBack;
 
     public LoginView()
     {
@@ -26,6 +29,7 @@ public class LoginView extends BorderPane {
         tfUsername = new TextField();
         tfPassword = new TextField();
         btnLogin = new Button("Ulogujte se");
+        btnBack = new Button("Nazad");
     }
 
     private void addElements() {
@@ -40,8 +44,13 @@ public class LoginView extends BorderPane {
         gp.setHgap(10);
         gp.setVgap(10);
 
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(btnBack, btnLogin);
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(gp, btnLogin);
+        vBox.getChildren().addAll(gp, hBox);
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         setCenter(vBox);
@@ -49,6 +58,7 @@ public class LoginView extends BorderPane {
 
     private void addActions() {
         btnLogin.setOnAction(new LoginControl(this));
+        btnBack.setOnAction(new BackControl());
     }
 
     public TextField getTfUsername() {

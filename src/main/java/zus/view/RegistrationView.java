@@ -6,7 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import zus.controller.BackControl;
 import zus.controller.RegistrationControl;
 
 public class RegistrationView extends BorderPane {
@@ -16,6 +18,7 @@ public class RegistrationView extends BorderPane {
     private TextField tfIme;
     private TextField tfPrezime;
     private Button btnRegister;
+    private Button btnBack;
 
     public RegistrationView()
     {
@@ -30,6 +33,7 @@ public class RegistrationView extends BorderPane {
         tfIme = new TextField();
         tfPrezime = new TextField();
         btnRegister = new Button("Registrujte se");
+        btnBack = new Button("Nazad");
     }
 
     private void addElements() {
@@ -46,8 +50,13 @@ public class RegistrationView extends BorderPane {
         gp.setVgap(10);
         gp.setAlignment(Pos.CENTER);
 
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(btnBack, btnRegister);
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(gp, btnRegister);
+        vBox.getChildren().addAll(gp, hBox);
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         setCenter(vBox);
@@ -55,6 +64,7 @@ public class RegistrationView extends BorderPane {
 
     private void addActions() {
         btnRegister.setOnAction(new RegistrationControl(this));
+        btnBack.setOnAction(new BackControl());
     }
 
     public TextField getTfUserName() {
