@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import zus.controller.LoginControl;
 
 public class LoginView extends BorderPane {
     private TextField tfUsername;
@@ -47,5 +48,14 @@ public class LoginView extends BorderPane {
     }
 
     private void addActions() {
+        btnLogin.setOnAction(new LoginControl(this));
+    }
+
+    public TextField getTfUsername() {
+        return tfUsername;
+    }
+
+    public TextField getTfPassword() {
+        return tfPassword;
     }
 }

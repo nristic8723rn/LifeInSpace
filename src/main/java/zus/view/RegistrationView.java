@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import zus.controller.RegistrationControl;
 
 public class RegistrationView extends BorderPane {
 
@@ -53,5 +54,22 @@ public class RegistrationView extends BorderPane {
     }
 
     private void addActions() {
+        btnRegister.setOnAction(new RegistrationControl(this));
+    }
+
+    public TextField getTfUserName() {
+        return tfUserName;
+    }
+
+    public TextField getTfPassword() {
+        return tfPassword;
+    }
+
+    public TextField getTfIme() {
+        return tfIme;
+    }
+
+    public TextField getTfPrezime() {
+        return tfPrezime;
     }
 }

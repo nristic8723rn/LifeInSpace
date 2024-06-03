@@ -1,6 +1,7 @@
 package zus.model.utility;
 
 import zus.model.Person;
+import zus.model.User;
 import zus.model.base.Server;
 
 import java.sql.*;
@@ -60,6 +61,52 @@ public class JDBCUtils {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void insertIntoUsers(String username, String password, String name, String familyName) throws SQLException {
+        String query = "insert into users (username, password, name, family_name)" + "values(?, ?, ?, ?)";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        connection.setAutoCommit(false);
+        statement.setString(1, username);
+        statement.setString(2, password);
+        statement.setString(3, name);
+        statement.setString(4, familyName);
+        statement.executeUpdate();
+        connection.commit();
+    }
+
+    public static User checkUsers(String kIme) throws SQLException {
+        String query = "select * from users where username like '" + kIme + "'";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        User user = null;
+        if(resultSet.next())
+        {
+            String userName = resultSet.getString(1);
+            String password = resultSet.getString(2);
+            String name = resultSet.getString(3);
+            String familyName = resultSet.getString(4);
+
+            user = new User(userName, password, name, familyName);
+        }
+        return user;
+    }
+
+    public static User checkPassword(String kIme, String lozinka) throws SQLException {
+        String query = "select * from users where username like '" + kIme + "' and password like '" + lozinka + "'";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        User user = null;
+        if(resultSet.next()) {
+            String userName = resultSet.getString(1);
+            String password = resultSet.getString(2);
+            String name = resultSet.getString(3);
+            String familyName = resultSet.getString(4);
+
+            user = new User(userName, password, name, familyName);
+        }
+        return user;
     }
 
     private JDBCUtils() {
