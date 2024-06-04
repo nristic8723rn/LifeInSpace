@@ -11,12 +11,18 @@ public class Person {
     private String lastName;
 
     private LocalDate dateOfBirth;
+    private LocalDate dateOfDeath;
+    private int housingID;
+    private int orbID;
 
-    public Person(int personId, String firstName, String lastName, LocalDate dateOfBirth) {
+    public Person(int personId, String firstName, String lastName, LocalDate dateOfBirth, LocalDate dateOfDeath, int housingID, int orbID) {
         this.personId = personId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.dateOfDeath = dateOfDeath;
+        this.housingID = housingID;
+        this.orbID = orbID;
     }
 
     public int getPersonId() {

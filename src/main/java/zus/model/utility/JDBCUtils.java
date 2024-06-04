@@ -26,36 +26,47 @@ public class JDBCUtils {
     }
 
     public static List<Person> selectAllFromPerson() {
-        List<Person> people = new ArrayList<>();
+        List<Person> list = new ArrayList<>();
         String query = "select * from persons";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 int personId = resultSet.getInt(1);
-                String firstName = resultSet.getString(2);
-                String lastName = resultSet.getString(3);
-                LocalDate dateOfBirth = resultSet.getDate(4).toLocalDate();
-                Person person = new Person(personId, firstName, lastName, dateOfBirth);
-                people.add(person);
+                int orbId = resultSet.getInt(2);
+                int housingUnitId = resultSet.getInt(3);
+                String firstName = resultSet.getString(4);
+                String lastName = resultSet.getString(5);
+                LocalDate dateOfBirth = resultSet.getDate(6).toLocalDate();
+                LocalDate dateOfDeath = resultSet.getDate(7).toLocalDate();
+                Person person = new Person(personId, firstName, lastName, dateOfBirth, dateOfDeath, housingUnitId, orbId);
+                list.add(person);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return people;
+        return list;
     }
 
-    public static void insertIntoPerson(String firstName, String lastName, LocalDate dateOfBirth) {
-        String query = "insert into persons (first_name, last_name, date_of_birth)" +
-                "values (?, ?, str_to_date(?, '%m/%d/%Y'))";
+    public static void insertIntoPerson(int orbID, int housingUnitID,String firstName, String lastName, LocalDate dateOfBirth, LocalDate dateOfDeath) {
+        String query = "insert into persons (orb_id, housing_unit_id,first_name, last_name, date_of_birth, date_of_death)" +
+                "values (?,?,?, ?, str_to_date(?, '%m/%d/%Y'), str_to_date(?, '%m/%d/%Y'))";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             connection.setAutoCommit(false);
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3,
+            statement.setInt(1,orbID);
+            statement.setInt(2,housingUnitID);
+            statement.setString(3, firstName);
+            statement.setString(4, lastName);
+            statement.setString(5,
                     dateOfBirth.getMonthValue() + "/" +
                     dateOfBirth.getDayOfMonth() + "/" + dateOfBirth.getYear());
+            if(dateOfDeath !=null) {
+                statement.setString(6, dateOfDeath.getMonthValue() + "/" +
+                        dateOfDeath.getDayOfMonth() + "/" + dateOfDeath.getYear());
+            }
+            else
+                statement.setString(6,null);
             statement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -231,6 +242,40 @@ public class JDBCUtils {
             list.add(housingUnit);
         }
         return list;
+    }
+
+    public static List<Person> selectFromPersonsUsingHousingUnits(int housingUnitID)
+    {
+        List<Person> list = new ArrayList<>();
+        String query = "select * from persons where housing_unit_id = '" + housingUnitID + "'";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int personId = resultSet.getInt(1);
+                int orbId = resultSet.getInt(2);
+                int housingUnitId = resultSet.getInt(3);
+                String firstName = resultSet.getString(4);
+                String lastName = resultSet.getString(5);
+                LocalDate dateOfBirth = resultSet.getDate(6).toLocalDate();
+                LocalDate dateOfDeath = resultSet.getDate(7).toLocalDate();
+                Person person = new Person(personId, firstName, lastName, dateOfBirth, dateOfDeath, housingUnitId, orbId);
+                list.add(person);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public static void insertUserIntoHousingUnit(String userName, int housingID) throws SQLException {
+        String query = "update housingunits set username = '" + userName  + "' where housing_unit_id = '" + housingID + "'";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        connection.setAutoCommit(false);
+        statement.executeUpdate();
+        connection.commit();
     }
 
     private JDBCUtils() {

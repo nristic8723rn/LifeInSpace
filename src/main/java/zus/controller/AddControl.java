@@ -6,39 +6,32 @@ import javafx.event.EventHandler;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import zus.model.HousingUnit;
 import zus.model.Person;
 import zus.model.base.Server;
 import zus.model.utility.JDBCUtils;
+import zus.view.AddPeopleView;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class AddControl implements EventHandler<ActionEvent> {
 
-    private final TextField firstNameTextField;
-    private final TextField lastNameTextField;
-    private final DatePicker dateOfBirthPicker;
+    private AddPeopleView addPeopleView;
 
-    private final TableView<Person> personTableView;
-
-    public AddControl(TextField firstNameTextField, TextField lastNameTextField, DatePicker dateOfBirthPicker, TableView<Person> personTableView) {
-        this.firstNameTextField = firstNameTextField;
-        this.lastNameTextField = lastNameTextField;
-        this.dateOfBirthPicker = dateOfBirthPicker;
-        this.personTableView = personTableView;
+    public AddControl(AddPeopleView addPeopleView) {
+        this.addPeopleView = addPeopleView;
     }
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        String firstName = this.firstNameTextField.getText().trim();
-        String lastName = this.lastNameTextField.getText().trim();
-        LocalDate dateOfBirth = this.dateOfBirthPicker.getValue();
-        JDBCUtils.insertIntoPerson(firstName, lastName, dateOfBirth);
-        List<Person> people = JDBCUtils.selectAllFromPerson();
-        Server.SERVER.setPeople(people);
-        this.personTableView.setItems(FXCollections.observableArrayList(people));
-        this.firstNameTextField.clear();
-        this.lastNameTextField.clear();
-        this.dateOfBirthPicker.setValue(LocalDate.now().minusYears(20));
+        HousingUnit housingUnit = addPeopleView.getHousingUnit();
+        int orbID = housingUnit.getOrbId();
+        String firstName = addPeopleView.getTfFirstName().getText();
+        String lastName = addPeopleView.getTfLastName().getText();
+        LocalDate dateOfBirth = addPeopleView.getDpDateOfBirth().getValue();
+
+        JDBCUtils.insertIntoPerson(orbID, housingUnit.getHousingUnitId(), firstName, lastName, dateOfBirth, null);
+        addPeopleView.getTvResidents().refresh();
     }
 }

@@ -15,4 +15,20 @@ public class HousingUnit {
         this.username = username;
         this.name = name;
     }
+
+    public int getHousingUnitId() {
+        return housingUnitId;
+    }
+
+    public int getOrbId() {
+        return orbId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

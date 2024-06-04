@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import zus.controller.ChooseControl;
 import zus.controller.OrbsControl;
 import zus.model.HousingUnit;
 import zus.model.Orb;
@@ -50,6 +51,19 @@ public class HousingView extends BorderPane {
     }
 
     private void addActions() {
+        btnChoose.setOnAction(new ChooseControl(this));
         btnBack.setOnAction(new OrbsControl());
+    }
+
+    public TableView<HousingUnit> getTvHousingUnits() {
+        return tvHousingUnits;
+    }
+
+    public Button getBtnChoose() {
+        return btnChoose;
+    }
+
+    public Button getBtnBack() {
+        return btnBack;
     }
 }
