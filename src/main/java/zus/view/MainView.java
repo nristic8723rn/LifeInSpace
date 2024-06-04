@@ -47,6 +47,7 @@ public class MainView extends BorderPane {
     }
 
     private void addAction() {
+        btnObjects.setOnAction(new OrbsControl());
         btnTickets.setOnAction(new TicketsControl());
         btnOverview.setOnAction(new OverviewControl());
         btnLogout.setOnAction(new BackControl());

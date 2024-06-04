@@ -191,6 +191,30 @@ public class JDBCUtils {
         return list;
     }
 
+    public static List<Orb> selectFromOrbs() throws SQLException {
+        List<Orb> list = new ArrayList<>();
+        String query = "select * from orbs o left join (select orb_id from persons where date_of_death is not null and timestampdiff(year, date_of_birth, date_of_death) < 40 group by orb_id having count(person_id) > 20) p on o.orb_id = p.orb_id where p.orb_id is null and dist_to_star between 100 and 200 and lowest_temp between 150 and 250 and highest_temp between 250 and 350 and highest_temp-lowest_temp < 121 and o2_percentage between 15 and 25 and max_gravity > 999 and orbit_velocity between 25 and 35";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        while(resultSet.next())
+        {
+            int orbId= resultSet.getInt(1);
+            String type = resultSet.getString(2);
+            int distToStar = resultSet.getInt(3);
+            int lowestTemp = resultSet.getInt(4);
+            int highestTemp = resultSet.getInt(5);
+            int o2Percentage = resultSet.getInt(6);
+            int maxGravity = resultSet.getInt(7);
+            int orbitVelocity = resultSet.getInt(8);
+            String name = resultSet.getString(9);
+
+            Orb orb = new Orb(orbId, type, distToStar, lowestTemp, highestTemp, o2Percentage, maxGravity, orbitVelocity, name);
+
+            list.add(orb);
+        }
+        return list;
+    }
+
     private JDBCUtils() {
 
     }
