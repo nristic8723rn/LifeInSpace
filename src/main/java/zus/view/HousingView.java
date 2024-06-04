@@ -7,27 +7,30 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import zus.controller.HousingControl;
-import zus.controller.PurchaseBackControl;
+import zus.controller.OrbsControl;
+import zus.model.HousingUnit;
 import zus.model.Orb;
 import zus.model.utility.JDBCUtils;
 
 import java.sql.SQLException;
 
-public class OrbsView extends BorderPane {
-    private TableView <Orb> tvOrbs;
-    private Button btnHousing;
+public class HousingView extends BorderPane {
+    private TableView<HousingUnit> tvHousingUnits;
+    private Button btnChoose;
     private Button btnBack;
 
-    public OrbsView() throws SQLException {
+    private Orb orb;
+
+    public HousingView(Orb orb) throws SQLException {
+        this.orb=orb;
         initElements();
         addElements();
         addActions();
     }
 
     private void initElements() throws SQLException {
-        tvOrbs = new OrbsTable(JDBCUtils.selectFromOrbs());
-        btnHousing = new Button("Pogledajte objekte");
+        tvHousingUnits = new HousingUnitsTable(JDBCUtils.selectHousingUnitsForOrb(orb.getOrbId()));
+        btnChoose = new Button("Izaberite");
         btnBack = new Button("Nazad");
     }
 
@@ -35,9 +38,9 @@ public class OrbsView extends BorderPane {
         setPadding(new Insets(10));
 
         GridPane gp = new GridPane();
-        gp.add(new Label("Nastanjive planete"), 0, 0);
-        gp.add(tvOrbs, 0, 1);
-        gp.add(btnHousing, 1, 0);
+        gp.add(new Label("Dostupni objekti"), 0, 0);
+        gp.add(tvHousingUnits, 0, 1);
+        gp.add(btnChoose, 1, 0);
         gp.add(btnBack, 1, 1);
         gp.setVgap(10);
         gp.setHgap(10);
@@ -47,11 +50,6 @@ public class OrbsView extends BorderPane {
     }
 
     private void addActions() {
-        btnHousing.setOnAction(new HousingControl(this));
-        btnBack.setOnAction(new PurchaseBackControl());
-    }
-
-    public TableView<Orb> getTvOrbs() {
-        return tvOrbs;
+        btnBack.setOnAction(new OrbsControl());
     }
 }

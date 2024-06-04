@@ -12,7 +12,7 @@ public class OrbsControl implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            App.window.setScene(new Scene(new OrbsView(), 300, 300));
+            App.window.setScene(new Scene(new OrbsView(), 350, 300));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

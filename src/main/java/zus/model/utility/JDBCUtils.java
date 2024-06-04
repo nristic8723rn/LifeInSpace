@@ -215,6 +215,24 @@ public class JDBCUtils {
         return list;
     }
 
+    public static List<HousingUnit> selectHousingUnitsForOrb(int orbID) throws SQLException {
+        List<HousingUnit> list = new ArrayList<>();
+        String query = "select * from housingunits where orb_id = '" + orbID + "' and username is null";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        while(resultSet.next())
+        {
+            int orbId = resultSet.getInt(1);
+            int housingUnitId = resultSet.getInt(2);
+            String username = resultSet.getString(3);
+            String name = resultSet.getString(4);
+
+            HousingUnit housingUnit = new HousingUnit(housingUnitId, orbID,username, name);
+            list.add(housingUnit);
+        }
+        return list;
+    }
+
     private JDBCUtils() {
 
     }
