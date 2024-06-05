@@ -7,8 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import zus.App;
+import zus.controller.DetailsControl;
 import zus.controller.PurchaseBackControl;
 import zus.model.HousingUnit;
 import zus.model.Ticket;
@@ -20,6 +22,8 @@ import java.sql.SQLException;
 public class PurchasesView extends BorderPane {
     private TableView<HousingUnit> tvHousingUnits;
     private TableView<Ticket> tvTickets;
+    private Button btnDetails;
+    private Button btnResidents;
     private Button btnBack;
 
     public PurchasesView() throws SQLException {
@@ -31,6 +35,8 @@ public class PurchasesView extends BorderPane {
     private void initElements() throws SQLException {
         tvHousingUnits = new HousingUnitsTable(JDBCUtils.selectFromHousingUnits(App.current.getUsername()));
         tvTickets = new TicketsTable(JDBCUtils.selectFromTickets(App.current.getUsername()));
+        btnDetails = new Button("Detalji");
+        btnResidents = new Button("Ukucani");
         btnBack = new Button("Nazad");
     }
 
@@ -46,14 +52,24 @@ public class PurchasesView extends BorderPane {
         gp.setHgap(10);
         gp.setAlignment(Pos.CENTER);
 
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(btnDetails, btnResidents, btnBack);
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+
         VBox vBox= new VBox();
-        vBox.getChildren().addAll(gp, btnBack);
+        vBox.getChildren().addAll(gp, hBox);
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         setCenter(vBox);
     }
 
     private void addActions() {
+        btnDetails.setOnAction(new DetailsControl(this));
         btnBack.setOnAction(new PurchaseBackControl());
+    }
+
+    public TableView<Ticket> getTvTickets() {
+        return tvTickets;
     }
 }

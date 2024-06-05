@@ -287,6 +287,26 @@ public class JDBCUtils {
         connection.commit();
     }
 
+    public static Voyage selectVoyage(int voyageID) throws SQLException {
+        String query = "select * from voyages where voyage_id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1,voyageID);
+        ResultSet resultSet = statement.executeQuery();
+        Voyage voyage = null;
+        if(resultSet.next())
+        {
+            int voyageId = resultSet.getInt(1);
+            int orbId = resultSet.getInt(2);
+            LocalDate dod = resultSet.getDate(3).toLocalDate();
+            LocalTime tod = resultSet.getTime(4).toLocalTime();
+            String name = resultSet.getString(5);
+            int capacity = resultSet.getInt(6);
+
+            voyage = new Voyage(voyageId, orbId, dod, tod, name, capacity);
+        }
+        return voyage;
+    }
+
     private JDBCUtils() {
 
     }

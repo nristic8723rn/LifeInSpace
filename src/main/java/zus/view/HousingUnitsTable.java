@@ -15,9 +15,9 @@ public class HousingUnitsTable extends TableView<HousingUnit> {
     {
         super(FXCollections.observableArrayList(values));
 
-        TableColumn<HousingUnit, Integer> tcHousingUnitId = new TableColumn<>("ID");
-        TableColumn<HousingUnit, Integer> tcOrbId = new TableColumn<>("OrbID");
-        TableColumn<HousingUnit, String> tcName = new TableColumn<>("Name");
+        TableColumn<HousingUnit, Integer> tcHousingUnitId = new TableColumn<>("ID objekta");
+        TableColumn<HousingUnit, Integer> tcOrbId = new TableColumn<>("ID planete");
+        TableColumn<HousingUnit, String> tcName = new TableColumn<>("Ime objekta");
 
         tcHousingUnitId.setCellValueFactory(new PropertyValueFactory<>("housingUnitId"));
         tcOrbId.setCellValueFactory(new PropertyValueFactory<>("orbId"));
