@@ -1,6 +1,7 @@
 package zus.controller;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.DatePicker;
@@ -32,6 +33,7 @@ public class AddControl implements EventHandler<ActionEvent> {
         LocalDate dateOfBirth = addPeopleView.getDpDateOfBirth().getValue();
 
         JDBCUtils.insertIntoPerson(orbID, housingUnit.getHousingUnitId(), firstName, lastName, dateOfBirth, null);
+        addPeopleView.getTvResidents().setItems(FXCollections.observableArrayList(JDBCUtils.selectFromPersonsUsingHousingUnits(housingUnit.getHousingUnitId())));
         addPeopleView.getTvResidents().refresh();
     }
 }

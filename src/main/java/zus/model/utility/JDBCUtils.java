@@ -259,7 +259,11 @@ public class JDBCUtils {
                 String firstName = resultSet.getString(4);
                 String lastName = resultSet.getString(5);
                 LocalDate dateOfBirth = resultSet.getDate(6).toLocalDate();
-                LocalDate dateOfDeath = resultSet.getDate(7).toLocalDate();
+                LocalDate dateOfDeath = null;
+                if(resultSet.getDate(7) != null)
+                {
+                    dateOfDeath = resultSet.getDate(7).toLocalDate();
+                }
                 Person person = new Person(personId, firstName, lastName, dateOfBirth, dateOfDeath, housingUnitId, orbId);
                 list.add(person);
             }
