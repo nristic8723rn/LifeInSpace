@@ -10,8 +10,9 @@ public class Orb {
     private int maxGravity;
     private int orbitVelocity;
     private String name;
+    private int otherGasses;
 
-    public Orb(int orbId, String type, int distToStar, int lowestTemp, int highestTemp, int o2Percentage, int maxGravity, int orbitVelocity, String name) {
+    public Orb(int orbId, String type, int distToStar, int lowestTemp, int highestTemp, int o2Percentage, int maxGravity, int orbitVelocity, String name, int otherGasses) {
         this.orbId = orbId;
         this.type = type;
         this.distToStar = distToStar;
@@ -21,6 +22,7 @@ public class Orb {
         this.maxGravity = maxGravity;
         this.orbitVelocity = orbitVelocity;
         this.name = name;
+        this.otherGasses = otherGasses;
     }
 
     public int getOrbId() {
