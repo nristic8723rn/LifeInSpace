@@ -31,7 +31,7 @@ public class ConfirmControl implements EventHandler<ActionEvent> {
         } catch (SQLException e) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Neuspesna kupovina");
-            errorAlert.setContentText("Nema dovoljno mesta");
+            errorAlert.setContentText("Nema dovoljno mesta, dostupno je " + voyage.getCapacity());
             errorAlert.show();
         }
     }

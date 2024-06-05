@@ -24,7 +24,7 @@ public class ResidentsView extends BorderPane {
     }
 
     private void initElements() throws SQLException {
-        tvResidents = new PersonTable(JDBCUtils.selectPersonsForUser(App.current.getUsername()));
+        tvResidents = new ResidentTable(JDBCUtils.selectPersonsForUser(App.current.getUsername()));
         btnback = new Button("Nazad");
     }
 

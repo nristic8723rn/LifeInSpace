@@ -52,4 +52,8 @@ public class Person {
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    public int getHousingID() {
+        return housingID;
+    }
 }
