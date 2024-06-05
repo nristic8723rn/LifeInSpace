@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -14,7 +15,7 @@ import zus.controller.LoginControl;
 
 public class LoginView extends BorderPane {
     private TextField tfUsername;
-    private TextField tfPassword;
+    private PasswordField pfPassword;
     private Button btnLogin;
     private Button btnBack;
 
@@ -27,7 +28,7 @@ public class LoginView extends BorderPane {
 
     private void initElements() {
         tfUsername = new TextField();
-        tfPassword = new TextField();
+        pfPassword = new PasswordField();
         btnLogin = new Button("Ulogujte se");
         btnBack = new Button("Nazad");
     }
@@ -40,7 +41,7 @@ public class LoginView extends BorderPane {
         gp.add(new Label("Korisnicko ime"), 0, 0);
         gp.add(new Label("Lozinka"), 0, 1);
         gp.add(tfUsername, 1, 0);
-        gp.add(tfPassword, 1, 1);
+        gp.add(pfPassword, 1, 1);
         gp.setHgap(10);
         gp.setVgap(10);
 
@@ -65,7 +66,7 @@ public class LoginView extends BorderPane {
         return tfUsername;
     }
 
-    public TextField getTfPassword() {
-        return tfPassword;
+    public PasswordField getPfPassword() {
+        return pfPassword;
     }
 }

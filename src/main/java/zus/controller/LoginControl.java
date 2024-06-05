@@ -33,7 +33,7 @@ public class LoginControl implements EventHandler<ActionEvent> {
             }
             else
             {
-                user = JDBCUtils.checkPassword(loginView.getTfUsername().getText(), loginView.getTfPassword().getText());
+                user = JDBCUtils.checkPassword(loginView.getTfUsername().getText(), loginView.getPfPassword().getText());
                 if(user == null)
                 {
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
