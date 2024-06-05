@@ -14,9 +14,9 @@ public class PersonTable extends TableView<Person> {
         super(FXCollections.observableArrayList(values));
 
         TableColumn<Person, Integer> tcPersonId = new TableColumn<>("ID");
-        TableColumn<Person, String> tcFirstName = new TableColumn<>("First Name");
-        TableColumn<Person, String> tcLastName = new TableColumn<>("Last Name");
-        TableColumn<Person, LocalDate> tcDOB = new TableColumn<>("Date of Birth");
+        TableColumn<Person, String> tcFirstName = new TableColumn<>("Ime");
+        TableColumn<Person, String> tcLastName = new TableColumn<>("Prezime");
+        TableColumn<Person, LocalDate> tcDOB = new TableColumn<>("Datum rodjenja");
 
         tcPersonId.setCellValueFactory(new PropertyValueFactory<>("personId"));
         tcFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));

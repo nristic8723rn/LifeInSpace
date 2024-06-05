@@ -307,6 +307,31 @@ public class JDBCUtils {
         return voyage;
     }
 
+    public static List<Person> selectPersonsForUser(String userName) throws SQLException {
+        List<Person> list = new ArrayList<>();
+        String query = "select * from persons p join housingunits h on p.housing_unit_id = h.housing_unit_id where username like ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, userName);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next())
+        {
+            int personId = resultSet.getInt(1);
+            int orbId = resultSet.getInt(2);
+            int housingUnitId = resultSet.getInt(3);
+            String firstName = resultSet.getString(4);
+            String lastName = resultSet.getString(5);
+            LocalDate dateOfBirth = resultSet.getDate(6).toLocalDate();
+            LocalDate dateOfDeath = null;
+            if(resultSet.getDate(7) != null)
+            {
+                dateOfDeath = resultSet.getDate(7).toLocalDate();
+            }
+            Person person = new Person(personId, firstName, lastName, dateOfBirth, dateOfDeath, housingUnitId, orbId);
+            list.add(person);
+        }
+        return list;
+    }
+
     private JDBCUtils() {
 
     }

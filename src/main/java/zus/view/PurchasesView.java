@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import zus.App;
 import zus.controller.DetailsControl;
 import zus.controller.PurchaseBackControl;
+import zus.controller.ResidentControl;
 import zus.model.HousingUnit;
 import zus.model.Ticket;
 import zus.model.Voyage;
@@ -66,6 +67,7 @@ public class PurchasesView extends BorderPane {
 
     private void addActions() {
         btnDetails.setOnAction(new DetailsControl(this));
+        btnResidents.setOnAction(new ResidentControl());
         btnBack.setOnAction(new PurchaseBackControl());
     }
 
