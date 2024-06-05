@@ -35,5 +35,7 @@ public class AddControl implements EventHandler<ActionEvent> {
         JDBCUtils.insertIntoPerson(orbID, housingUnit.getHousingUnitId(), firstName, lastName, dateOfBirth, null);
         addPeopleView.getTvResidents().setItems(FXCollections.observableArrayList(JDBCUtils.selectFromPersonsUsingHousingUnits(housingUnit.getHousingUnitId())));
         addPeopleView.getTvResidents().refresh();
+        addPeopleView.getTfFirstName().clear();
+        addPeopleView.getTfLastName().clear();
     }
 }
