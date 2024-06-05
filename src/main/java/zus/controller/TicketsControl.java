@@ -12,7 +12,7 @@ public class TicketsControl implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            App.window.setScene(new Scene(new VoyagesView(), 500, 300));
+            App.window.setScene(new Scene(new VoyagesView(), 600, 300));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

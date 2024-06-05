@@ -10,12 +10,14 @@ public class Voyage {
     private LocalDate dateOfDeparture;
     private LocalTime timeOfDeparture;
     private String name;
-    public Voyage(int voyageId, int orbId, LocalDate dateOfDeparture, LocalTime timeOfDeparture, String name) {
+    private int capacity;
+    public Voyage(int voyageId, int orbId, LocalDate dateOfDeparture, LocalTime timeOfDeparture, String name, int capacity) {
         this.voyageId = voyageId;
         this.orbId = orbId;
         this.dateOfDeparture = dateOfDeparture;
         this.timeOfDeparture = timeOfDeparture;
         this.name = name;
+        this.capacity=capacity;
     }
 
     public int getVoyageId() {
@@ -49,4 +51,9 @@ public class Voyage {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }
+

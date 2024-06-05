@@ -1,5 +1,6 @@
 package zus.model.utility;
 
+import zus.App;
 import zus.model.*;
 import zus.model.base.Server;
 
@@ -88,9 +89,10 @@ public class JDBCUtils {
     }
 
     public static User checkUsers(String kIme) throws SQLException {
-        String query = "select * from users where username like '" + kIme + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+        String query = "select * from users where username like ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, kIme);
+        ResultSet resultSet = statement.executeQuery();
         User user = null;
         if(resultSet.next())
         {
@@ -105,9 +107,11 @@ public class JDBCUtils {
     }
 
     public static User checkPassword(String kIme, String lozinka) throws SQLException {
-        String query = "select * from users where username like '" + kIme + "' and password like '" + lozinka + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+        String query = "select * from users where username like ? and password like ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, kIme);
+        statement.setString(2, lozinka);
+        ResultSet resultSet = statement.executeQuery();
         User user = null;
         if(resultSet.next()) {
             String userName = resultSet.getString(1);
@@ -122,9 +126,10 @@ public class JDBCUtils {
 
     public static List<HousingUnit> selectFromHousingUnits(String kIme) throws SQLException {
         List<HousingUnit> list = new ArrayList<>();
-        String query = "select * from housingunits where username like '" + kIme + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+        String query = "select * from housingunits where username like ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, kIme);
+        ResultSet resultSet = statement.executeQuery();
         while(resultSet.next())
         {
             int orbId = resultSet.getInt(1);
@@ -138,29 +143,12 @@ public class JDBCUtils {
         return list;
     }
 
-    public static List<Voyage> selectFromVoyages(String kIme) throws SQLException {
-        List<Voyage> list = new ArrayList<>();
-        String query = "select * from voyages join kupuje using(voyage_id) where username like '" + kIme + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        while(resultSet.next())
-        {
-            int voyageId = resultSet.getInt(1);
-            int orbId = resultSet.getInt(2);
-            LocalDate dod = resultSet.getDate(3).toLocalDate();
-            LocalTime tod = resultSet.getTime(4).toLocalTime();
-            String name = resultSet.getString(5);
-
-            Voyage voyage = new Voyage(voyageId, orbId, dod, tod, name);
-            list.add(voyage);
-        }
-        return list;
-    }
     public static List<Voyage> selectAllFromVoyages() throws SQLException {
         List<Voyage> list = new ArrayList<>();
-        String query = "select * from voyages";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+        String query = "select v.* from voyages v left join ticket t on v.voyage_id = t.voyage_id and t.username = ? where t.voyage_id is null and v.capacity > 0";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, App.current.getUsername());
+        ResultSet resultSet = statement.executeQuery();
         while(resultSet.next())
         {
             int voyageId = resultSet.getInt(1);
@@ -168,8 +156,9 @@ public class JDBCUtils {
             LocalDate dod = resultSet.getDate(3).toLocalDate();
             LocalTime tod = resultSet.getTime(4).toLocalTime();
             String name = resultSet.getString(5);
+            int capacity = resultSet.getInt(6);
 
-            Voyage voyage = new Voyage(voyageId, orbId, dod, tod, name);
+            Voyage voyage = new Voyage(voyageId, orbId, dod, tod, name, capacity);
             list.add(voyage);
         }
         return list;
@@ -187,9 +176,10 @@ public class JDBCUtils {
     }
     public static List<Ticket> selectFromTickets(String kIme) throws SQLException {
         List<Ticket> list = new ArrayList<>();
-        String query = "select * from ticket where username like '" + kIme + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+        String query = "select * from ticket where username like ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, kIme);
+        ResultSet resultSet = statement.executeQuery();
         while(resultSet.next())
         {
             String username = resultSet.getString(1);
@@ -229,9 +219,10 @@ public class JDBCUtils {
 
     public static List<HousingUnit> selectHousingUnitsForOrb(int orbID) throws SQLException {
         List<HousingUnit> list = new ArrayList<>();
-        String query = "select * from housingunits where orb_id = '" + orbID + "' and username is null";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+        String query = "select * from housingunits where orb_id = ? and username is null";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, orbID);
+        ResultSet resultSet = statement.executeQuery();
         while(resultSet.next())
         {
             int orbId = resultSet.getInt(1);
@@ -239,7 +230,7 @@ public class JDBCUtils {
             String username = resultSet.getString(3);
             String name = resultSet.getString(4);
 
-            HousingUnit housingUnit = new HousingUnit(housingUnitId, orbID,username, name);
+            HousingUnit housingUnit = new HousingUnit(housingUnitId, orbId,username, name);
             list.add(housingUnit);
         }
         return list;
@@ -248,11 +239,12 @@ public class JDBCUtils {
     public static List<Person> selectFromPersonsUsingHousingUnits(int housingUnitID)
     {
         List<Person> list = new ArrayList<>();
-        String query = "select * from persons where housing_unit_id = '" + housingUnitID + "'";
+        String query = "select * from persons where housing_unit_id = ?";
 
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, housingUnitID);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int personId = resultSet.getInt(1);
                 int orbId = resultSet.getInt(2);
@@ -275,10 +267,22 @@ public class JDBCUtils {
     }
 
     public static void insertUserIntoHousingUnit(String userName, int housingID) throws SQLException {
-        String query = "update housingunits set username = '" + userName  + "' where housing_unit_id = '" + housingID + "'";
+        String query = "update housingunits set username = ? where housing_unit_id = ?";
 
         PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, userName);
+        statement.setInt(2, housingID);
         connection.setAutoCommit(false);
+        statement.executeUpdate();
+        connection.commit();
+    }
+
+    public static void updateVoyageCapacity(int voyageID, int noOfPassengers) throws SQLException {
+        String query = "update voyages set capacity = (capacity - ?) where voyage_id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        connection.setAutoCommit(false);
+        statement.setInt(1, noOfPassengers);
+        statement.setInt(2, voyageID);
         statement.executeUpdate();
         connection.commit();
     }

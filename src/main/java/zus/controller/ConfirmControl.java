@@ -3,6 +3,7 @@ package zus.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import zus.App;
 import zus.model.Voyage;
 import zus.model.utility.JDBCUtils;
@@ -24,10 +25,14 @@ public class ConfirmControl implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         int noOfPassengers = Integer.parseInt(passengerNoView.getTfNumber().getText());
         try {
+            JDBCUtils.updateVoyageCapacity(voyage.getVoyageId(), noOfPassengers);
             JDBCUtils.insertIntoTicket(App.current.getUsername(), voyage.getVoyageId(), noOfPassengers);
-            App.window.setScene(new Scene(new VoyagesView(), 500, 300));
+            App.window.setScene(new Scene(new VoyagesView(), 600, 300));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Neuspesna kupovina");
+            errorAlert.setContentText("Nema dovoljno mesta");
+            errorAlert.show();
         }
     }
 }
